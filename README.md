@@ -1,53 +1,126 @@
-# linux-sc
+# 🐧 linux-sc
 
-Coleção de scripts shell para configurar e automatizar tarefas comuns em sistemas Linux, com suporte a múltiplas distribuições (Ubuntu, Debian, Fedora, Arch, openSUSE, Alpine, entre outras).
+> Uma coleção de scripts Shell para automatizar configurações, instalações e tarefas comuns em sistemas Linux.
 
-O projeto conta com um **painel interativo** que centraliza o acesso a todos os scripts: basta escolher uma opção no menu e o script correspondente é baixado e executado automaticamente.
+O **linux-sc** reúne diversos scripts prontos para uso, permitindo configurar servidores e desktops de forma rápida através de um **painel interativo**, compatível com diversas distribuições Linux.
 
-## Como usar
+## ✨ Recursos
 
-Execute o painel diretamente, sem precisar clonar o repositório:
+* 📦 Instalação rápida sem precisar clonar o repositório
+* 🖥️ Painel interativo para executar scripts
+* ⚡ Download e execução automática dos scripts
+* 🐧 Compatível com diversas distribuições Linux
+* 🔧 Fácil de expandir com novos scripts
+* 📂 Organização simples e modular
+
+## 📌 Distribuições suportadas
+
+Entre as distribuições compatíveis estão:
+
+* Ubuntu
+* Debian
+* Fedora
+* Arch Linux
+* openSUSE
+* Alpine Linux
+* e outras distribuições baseadas em Bash.
+
+---
+
+# 🚀 Execução rápida
+
+Você pode executar o painel diretamente pelo terminal:
 
 ```bash
 bash <(curl -fsSL https://raw.githubusercontent.com/MaelllDev/linux-sc/refs/heads/main/painel.sh)
 ```
 
-Um menu numerado será exibido. Basta digitar o número da opção desejada e pressionar ENTER.
+Após executar o comando, será exibido um menu numerado contendo todos os scripts disponíveis.
 
-### Executando um script específico
+Basta escolher uma opção e pressionar **ENTER**.
 
-Também é possível baixar e rodar um script individualmente, sem passar pelo painel:
+---
+
+# 📥 Executando apenas um script
+
+Caso queira utilizar somente um script específico:
 
 ```bash
 bash <(curl -fsSL https://raw.githubusercontent.com/MaelllDev/linux-sc/refs/heads/main/NOME_DO_SCRIPT.sh)
 ```
 
-## Requisitos
+Substitua `NOME_DO_SCRIPT.sh` pelo arquivo desejado.
 
-- Bash
-- `curl` ou `wget` instalado
-- Permissão de `sudo` (necessária para alguns scripts que instalam pacotes)
+---
 
-## Estrutura do repositório
+# 📋 Requisitos
 
-```
+Antes de executar os scripts, certifique-se de possuir:
+
+* Bash
+* `curl` ou `wget`
+* Permissão de `sudo` (quando necessária)
+
+---
+
+# 📁 Estrutura do projeto
+
+```text
 linux-sc/
-├── painel.sh          # Menu principal que lista e executa os demais scripts
-├── install-fetch.sh   # Um dos scripts disponíveis no painel
-└── ...                # Demais scripts do projeto
+├── painel.sh
+├── install-fetch.sh
+├── script-exemplo.sh
+└── ...
 ```
 
-## Adicionando novos scripts
+**Descrição dos arquivos**
 
-O painel foi feito para ser facilmente expansível. Para adicionar um novo script ao menu, basta:
+| Arquivo     | Função                                                         |
+| ----------- | -------------------------------------------------------------- |
+| `painel.sh` | Painel principal responsável por listar e executar os scripts. |
+| `*.sh`      | Scripts independentes para diferentes tarefas.                 |
 
-1. Subir o novo script `.sh` no repositório.
-2. Adicionar o nome e a URL "raw" dele nas listas `OPCOES_NOME` e `OPCOES_URL` dentro do `painel.sh`.
+---
 
-## Contribuindo
+# ➕ Adicionando novos scripts
 
-Sugestões, correções e novos scripts são bem-vindos. Abra uma issue ou envie um pull request.
+Adicionar novos scripts ao painel é simples.
 
-## Licença
+1. Adicione o novo arquivo `.sh` ao repositório.
+2. Inclua o nome do script na lista `OPCOES_NOME`.
+3. Adicione sua URL Raw correspondente em `OPCOES_URL`.
+4. Salve as alterações no `painel.sh`.
 
-Este projeto está disponível livremente para uso e modificação.
+O novo script aparecerá automaticamente no menu.
+
+---
+
+# 🤝 Contribuindo
+
+Contribuições são sempre bem-vindas.
+
+Você pode colaborar através de:
+
+* Correção de bugs
+* Novos scripts
+* Melhorias de documentação
+* Otimizações de código
+* Sugestões de funcionalidades
+
+Basta abrir uma *Issue* ou enviar um *Pull Request*.
+
+---
+
+# 📄 Licença
+
+Este projeto é de código aberto e pode ser utilizado, modificado e distribuído livremente conforme os termos da licença adotada pelo repositório.
+
+---
+
+<div align="center">
+
+**Desenvolvido por MaelllDev ❤️**
+
+Se este projeto foi útil para você, considere deixar uma ⭐ no repositório.
+
+</div>
