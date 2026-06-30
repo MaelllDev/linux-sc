@@ -1,30 +1,53 @@
-# Linux Scripts
+# linux-sc
 
-🐧 Coleção de scripts Bash para automatizar tarefas chatas em Linux. Porque ninguém quer ficar repetindo comandos na mão.
+Coleção de scripts shell para configurar e automatizar tarefas comuns em sistemas Linux, com suporte a múltiplas distribuições (Ubuntu, Debian, Fedora, Arch, openSUSE, Alpine, entre outras).
 
-## 📋 Scripts Disponíveis
+O projeto conta com um **painel interativo** que centraliza o acesso a todos os scripts: basta escolher uma opção no menu e o script correspondente é baixado e executado automaticamente.
 
-### `install-fetch.sh` - Instalação automática de Fetch
-Instala automaticamente **neofetch** ou **fastfetch** em praticamente qualquer distro Linux e configura para rodar toda vez que você abre um terminal.
+## Como usar
 
-**Distros suportadas:**
-- Ubuntu / Debian
-- Fedora / RHEL / CentOS
-- Arch Linux
-- openSUSE
-- Alpine Linux
-- E muitas outras...
+Execute o painel diretamente, sem precisar clonar o repositório:
 
-**O que faz:**
-- Detecta automaticamente qual gerenciador de pacotes usar
-- Tenta instalar neofetch primeiro (se disponível)
-- Se não conseguir, faz fallback pro fastfetch
-- Se o pacote não está nos repos, baixa o binário direto do GitHub
-- Configura `.bashrc` e `.zshrc` pra rodar o fetch automaticamente
-- Suporta arquiteturas x86_64 e ARM64
-
-**Uso:**
 ```bash
-chmod +x install-fetch.sh
-./install-fetch.sh
-sudo ./install-fetch.sh  # se precisar instalar pacotes
+bash <(curl -fsSL https://raw.githubusercontent.com/MaelllDev/linux-sc/refs/heads/main/painel.sh)
+```
+
+Um menu numerado será exibido. Basta digitar o número da opção desejada e pressionar ENTER.
+
+### Executando um script específico
+
+Também é possível baixar e rodar um script individualmente, sem passar pelo painel:
+
+```bash
+bash <(curl -fsSL https://raw.githubusercontent.com/MaelllDev/linux-sc/refs/heads/main/NOME_DO_SCRIPT.sh)
+```
+
+## Requisitos
+
+- Bash
+- `curl` ou `wget` instalado
+- Permissão de `sudo` (necessária para alguns scripts que instalam pacotes)
+
+## Estrutura do repositório
+
+```
+linux-sc/
+├── painel.sh          # Menu principal que lista e executa os demais scripts
+├── install-fetch.sh   # Um dos scripts disponíveis no painel
+└── ...                # Demais scripts do projeto
+```
+
+## Adicionando novos scripts
+
+O painel foi feito para ser facilmente expansível. Para adicionar um novo script ao menu, basta:
+
+1. Subir o novo script `.sh` no repositório.
+2. Adicionar o nome e a URL "raw" dele nas listas `OPCOES_NOME` e `OPCOES_URL` dentro do `painel.sh`.
+
+## Contribuindo
+
+Sugestões, correções e novos scripts são bem-vindos. Abra uma issue ou envie um pull request.
+
+## Licença
+
+Este projeto está disponível livremente para uso e modificação.
