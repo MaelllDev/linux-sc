@@ -94,7 +94,7 @@ linux-sc/
 Antes de executar qualquer script, o painel verifica o **checksum SHA-256** do arquivo baixado contra o hash registrado em `OPCOES_SHA256`:
 
 * Se o hash **confere**, o script é executado normalmente.
-* Se o hash **não confere**, o script **não é executado** (pode ter sido alterado ou corrompido no caminho).
+* Se o hash **não confere**, o script **não é executado por padrão** — o painel mostra os hashes (esperado vs. obtido) e pergunta se você quer executá-lo mesmo assim (resposta negativa por padrão).
 * Se não houver hash registrado (ou a ferramenta `sha256sum`/`shasum` não existir), o painel avisa e pergunta se você deseja continuar.
 
 Os hashes são **gerados automaticamente** pelo `gerar-hashes.sh` — você nunca precisa editá-los à mão:

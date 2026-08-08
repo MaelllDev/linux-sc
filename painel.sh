@@ -128,7 +128,12 @@ verificar_integridade() {
     err "ERRO DE INTEGRIDADE: o checksum de '$nome' não confere!"
     err "Esperado: $esperado"
     err "Obtido:   $real"
-    err "O script pode ter sido alterado ou corrompido. Abortando execução."
+    warn "O script pode ter sido alterado ou corrompido."
+    if confirmar "Executar mesmo assim?"; then
+        warn "Executando sem verificação de integridade (por sua conta e risco)."
+        return 0
+    fi
+    warn "Execução cancelada pelo usuário."
     return 1
 }
 
