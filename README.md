@@ -70,6 +70,11 @@ Antes de executar os scripts, certifique-se de possuir:
 linux-sc/
 ├── painel.sh
 ├── install-fetch.sh
+├── atualizar-sistema.sh
+├── info-sistema.sh
+├── limpar-sistema.sh
+├── backup-dir.sh
+├── instalar-docker.sh
 ├── script-exemplo.sh
 ├── gerar-hashes.sh
 ├── LICENSE

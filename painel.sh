@@ -34,12 +34,22 @@ err()  { echo -e "${C_ERR}[ERRO]${C_RESET} $*"; }
 # =========================================================================
 OPCOES_NOME=(
     "Instalar neofetch/fastfetch (mostra system info ao abrir terminal)"
+    "Atualizar todos os pacotes do sistema"
+    "Exibir relatório de informações do sistema"
+    "Limpar caches e pacotes órfãos do sistema"
+    "Fazer backup de um diretório (tar.gz com rotação)"
+    "Instalar Docker e adicionar o usuário ao grupo docker"
     # "Outro script aqui"
     # "Mais um script aqui"
 )
 
 OPCOES_URL=(
     "https://raw.githubusercontent.com/MaelllDev/linux-sc/refs/heads/main/install-fetch.sh"
+    "https://raw.githubusercontent.com/MaelllDev/linux-sc/refs/heads/main/atualizar-sistema.sh"
+    "https://raw.githubusercontent.com/MaelllDev/linux-sc/refs/heads/main/info-sistema.sh"
+    "https://raw.githubusercontent.com/MaelllDev/linux-sc/refs/heads/main/limpar-sistema.sh"
+    "https://raw.githubusercontent.com/MaelllDev/linux-sc/refs/heads/main/backup-dir.sh"
+    "https://raw.githubusercontent.com/MaelllDev/linux-sc/refs/heads/main/instalar-docker.sh"
     # "https://raw.githubusercontent.com/SEU_USUARIO/SEU_REPO/refs/heads/main/outro-script.sh"
     # "https://raw.githubusercontent.com/SEU_USUARIO/SEU_REPO/refs/heads/main/mais-um.sh"
 )
@@ -47,6 +57,11 @@ OPCOES_URL=(
 # >>> gerado automaticamente por gerar-hashes.sh (não edite à mão) >>>
 OPCOES_SHA256=(
     "b4e23e9d573e4c14308272e46612ff91c2b3bcad9213714bd8abf346379d38c3"   # install-fetch.sh
+    "a9fcc0ed7de556e44473f463a93c960165f3c4dd4f48538cd8a1fd186942f50b"   # atualizar-sistema.sh
+    "6e6138107d92f6d9ecf285e5bbcc33d0a3256594435e7c80e2aefc93477349ef"   # info-sistema.sh
+    "8365ec84b307a44c4066f76121dcbf6a10bdfbb21d488254f979bd82f5ff8343"   # limpar-sistema.sh
+    "e85e7303a5624d15ae28cefd66b9609cb32a9347c60f3c434591b048b470058f"   # backup-dir.sh
+    "43ef43f0e2794f42fa6f7f44cfcf773d4825f35a4dcab71cfa20b9735d8cdc28"   # instalar-docker.sh
 )
 # <<< fim do bloco gerado <<<
 # =========================================================================
