@@ -8,8 +8,9 @@
 #
 # Uso:
 #   chmod +x install-fetch.sh
-#   ./install-fetch.sh          # instala para o usuário atual
+#   ./install-fetch.sh          # instala para o usuário atual (recomendado)
 #   sudo ./install-fetch.sh     # se precisar de privilégios pra instalar pacotes
+#                               # (o shell configurado é o do usuário que chamou o sudo)
 #
 set -euo pipefail
 
@@ -219,11 +220,36 @@ add_snippet_to_file() {
 }
 
 # adiciona no .bashrc e .zshrc do usuário (se existirem ou puderem ser criados)
-USER_HOME="${HOME:-/root}"
+# Quando o script roda via 'sudo', o HOME aponta para /root. Detecta o
+# usuário real (SUDO_USER) para configurar o shell correto do dono.
+REAL_USER="${SUDO_USER:-}"
+
+if [ -n "$REAL_USER" ]; then
+    # home do usuário real pelo banco de usuários (getent); senão, via ~
+    USER_HOME="$(getent passwd "$REAL_USER" 2>/dev/null | cut -d: -f6 || true)"
+    if [ -z "$USER_HOME" ] || [ ! -d "$USER_HOME" ]; then
+        USER_HOME="$(eval echo "~${REAL_USER}" || true)"
+    fi
+    if [ -z "$USER_HOME" ] || [ ! -d "$USER_HOME" ]; then
+        warn "Não foi possível determinar o home de '$REAL_USER'; usando ${HOME:-/root}."
+        USER_HOME="${HOME:-/root}"
+    fi
+else
+    USER_HOME="${HOME:-/root}"
+fi
+
 add_snippet_to_file "${USER_HOME}/.bashrc"
 
 if [ -f "${USER_HOME}/.zshrc" ] || command -v zsh >/dev/null 2>&1; then
     add_snippet_to_file "${USER_HOME}/.zshrc"
+fi
+
+# quando via sudo, devolve a posse dos arquivos de config ao usuário real
+if [ -n "$REAL_USER" ]; then
+    chown "$REAL_USER" "${USER_HOME}/.bashrc" 2>/dev/null || true
+    if [ -f "${USER_HOME}/.zshrc" ]; then
+        chown "$REAL_USER" "${USER_HOME}/.zshrc" 2>/dev/null || true
+    fi
 fi
 
 ok "Tudo pronto! Abra um novo terminal (ou rode 'source ~/.bashrc') para ver o ${FETCH_BIN} em ação."
