@@ -223,6 +223,7 @@ add_snippet_to_file() {
 # Quando o script roda via 'sudo', o HOME aponta para /root. Detecta o
 # usuário real (SUDO_USER) para configurar o shell correto do dono.
 REAL_USER="${SUDO_USER:-}"
+HOME_RESOLVED=0
 
 if [ -n "$REAL_USER" ]; then
     # home do usuário real pelo banco de usuários (getent); senão, via ~
@@ -233,6 +234,8 @@ if [ -n "$REAL_USER" ]; then
     if [ -z "$USER_HOME" ] || [ ! -d "$USER_HOME" ]; then
         warn "Não foi possível determinar o home de '$REAL_USER'; usando ${HOME:-/root}."
         USER_HOME="${HOME:-/root}"
+    else
+        HOME_RESOLVED=1
     fi
 else
     USER_HOME="${HOME:-/root}"
@@ -245,7 +248,8 @@ if [ -f "${USER_HOME}/.zshrc" ] || command -v zsh >/dev/null 2>&1; then
 fi
 
 # quando via sudo, devolve a posse dos arquivos de config ao usuário real
-if [ -n "$REAL_USER" ]; then
+# (só quando o home dele foi resolvido de fato; evita chown de /root no fallback)
+if [ -n "$REAL_USER" ] && [ "$HOME_RESOLVED" = "1" ]; then
     chown "$REAL_USER" "${USER_HOME}/.bashrc" 2>/dev/null || true
     if [ -f "${USER_HOME}/.zshrc" ]; then
         chown "$REAL_USER" "${USER_HOME}/.zshrc" 2>/dev/null || true
