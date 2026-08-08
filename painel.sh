@@ -58,10 +58,10 @@ OPCOES_URL=(
 OPCOES_SHA256=(
     "b4e23e9d573e4c14308272e46612ff91c2b3bcad9213714bd8abf346379d38c3"   # install-fetch.sh
     "a9fcc0ed7de556e44473f463a93c960165f3c4dd4f48538cd8a1fd186942f50b"   # atualizar-sistema.sh
-    "6e6138107d92f6d9ecf285e5bbcc33d0a3256594435e7c80e2aefc93477349ef"   # info-sistema.sh
+    "b32dac16cb4ecc55a2a91a0ab76a7e6563bdb34b8f6fd9cc173fea8668b53a6b"   # info-sistema.sh
     "8365ec84b307a44c4066f76121dcbf6a10bdfbb21d488254f979bd82f5ff8343"   # limpar-sistema.sh
-    "e85e7303a5624d15ae28cefd66b9609cb32a9347c60f3c434591b048b470058f"   # backup-dir.sh
-    "43ef43f0e2794f42fa6f7f44cfcf773d4825f35a4dcab71cfa20b9735d8cdc28"   # instalar-docker.sh
+    "cfd3a59d19c6b93c487c8598e6b2a9c62d20f19d0e10080e6b394c35ceeb631f"   # backup-dir.sh
+    "5961e7d1666042227ef93f7037895a2d298aa78ef75502130ed2b1459163b75d"   # instalar-docker.sh
 )
 # <<< fim do bloco gerado <<<
 # =========================================================================
