@@ -70,19 +70,22 @@ Antes de executar os scripts, certifique-se de possuir:
 linux-sc/
 ├── painel.sh
 ├── install-fetch.sh
-├── gerar-hashes.sh
-├── .gitattributes
 ├── script-exemplo.sh
+├── gerar-hashes.sh
+├── LICENSE
+├── .gitattributes
 └── ...
 ```
 
 **Descrição dos arquivos**
 
-| Arquivo            | Função                                                                |
-| ------------------ | --------------------------------------------------------------------- |
-| `painel.sh`        | Painel principal responsável por listar e executar os scripts.        |
-| `gerar-hashes.sh`  | Regenera automaticamente os hashes de integridade do painel.          |
-| `*.sh`             | Scripts independentes para diferentes tarefas.                        |
+| Arquivo             | Função                                                                |
+| ------------------- | --------------------------------------------------------------------- |
+| `painel.sh`         | Painel principal responsável por listar e executar os scripts.        |
+| `script-exemplo.sh` | Modelo de script para criar novos scripts.                            |
+| `gerar-hashes.sh`   | Regenera automaticamente os hashes de integridade do painel.          |
+| `LICENSE`           | Licença MIT do projeto.                                               |
+| `*.sh`              | Scripts independentes para diferentes tarefas.                        |
 
 ---
 
@@ -111,7 +114,7 @@ Com o **pre-commit hook** instalado, basta editar um script, dar `git add` e faz
 
 Adicionar novos scripts ao painel é simples.
 
-1. Adicione o novo arquivo `.sh` ao repositório.
+1. Adicione o novo arquivo `.sh` ao repositório (use o `script-exemplo.sh` como modelo).
 2. Inclua o nome do script na lista `OPCOES_NOME`.
 3. Adicione sua URL Raw correspondente em `OPCOES_URL`.
 4. Rode `./gerar-hashes.sh` (ou tenha o pre-commit hook instalado com `./gerar-hashes.sh --hook`).
@@ -139,7 +142,9 @@ Basta abrir uma *Issue* ou enviar um *Pull Request*.
 
 # 📄 Licença
 
-Este projeto é de código aberto e pode ser utilizado, modificado e distribuído livremente conforme os termos da licença adotada pelo repositório.
+Este projeto é distribuído sob a licença **MIT**. Você pode utilizar, modificar e distribuir o código livremente, desde que preserve o aviso de copyright original.
+
+Consulte o arquivo [LICENSE](LICENSE) para os termos completos.
 
 ---
 
