@@ -9,6 +9,7 @@ O **linux-sc** reúne diversos scripts prontos para uso, permitindo configurar s
 * 📦 Instalação rápida sem precisar clonar o repositório
 * 🖥️ Painel interativo para executar scripts
 * ⚡ Download e execução automática dos scripts
+* 🔒 Verificação de integridade (SHA-256) antes de executar
 * 🐧 Compatível com diversas distribuições Linux
 * 🔧 Fácil de expandir com novos scripts
 * 📂 Organização simples e modular
@@ -69,16 +70,40 @@ Antes de executar os scripts, certifique-se de possuir:
 linux-sc/
 ├── painel.sh
 ├── install-fetch.sh
+├── gerar-hashes.sh
+├── .gitattributes
 ├── script-exemplo.sh
 └── ...
 ```
 
 **Descrição dos arquivos**
 
-| Arquivo     | Função                                                         |
-| ----------- | -------------------------------------------------------------- |
-| `painel.sh` | Painel principal responsável por listar e executar os scripts. |
-| `*.sh`      | Scripts independentes para diferentes tarefas.                 |
+| Arquivo            | Função                                                                |
+| ------------------ | --------------------------------------------------------------------- |
+| `painel.sh`        | Painel principal responsável por listar e executar os scripts.        |
+| `gerar-hashes.sh`  | Regenera automaticamente os hashes de integridade do painel.          |
+| `*.sh`             | Scripts independentes para diferentes tarefas.                        |
+
+---
+
+# 🔒 Verificação de integridade
+
+Antes de executar qualquer script, o painel verifica o **checksum SHA-256** do arquivo baixado contra o hash registrado em `OPCOES_SHA256`:
+
+* Se o hash **confere**, o script é executado normalmente.
+* Se o hash **não confere**, o script **não é executado** (pode ter sido alterado ou corrompido no caminho).
+* Se não houver hash registrado (ou a ferramenta `sha256sum`/`shasum` não existir), o painel avisa e pergunta se você deseja continuar.
+
+Os hashes são **gerados automaticamente** pelo `gerar-hashes.sh` — você nunca precisa editá-los à mão:
+
+```bash
+./gerar-hashes.sh            # regenera os hashes no painel.sh
+./gerar-hashes.sh --hook     # instala um pre-commit hook (regeneração automática)
+```
+
+O hash é calculado a partir do conteúdo **staged** (`git show :arquivo`), ou seja, exatamente o que será commitado e servido pelo GitHub. Basta dar `git add` no script e o hash gerado corresponderá ao conteúdo publicado.
+
+Com o **pre-commit hook** instalado, basta editar um script, dar `git add` e fazer `git commit`: o hash novo é calculado e incluído no mesmo commit automaticamente.
 
 ---
 
@@ -89,7 +114,8 @@ Adicionar novos scripts ao painel é simples.
 1. Adicione o novo arquivo `.sh` ao repositório.
 2. Inclua o nome do script na lista `OPCOES_NOME`.
 3. Adicione sua URL Raw correspondente em `OPCOES_URL`.
-4. Salve as alterações no `painel.sh`.
+4. Rode `./gerar-hashes.sh` (ou tenha o pre-commit hook instalado com `./gerar-hashes.sh --hook`).
+5. Salve as alterações e faça o commit — o hash será gerado automaticamente.
 
 O novo script aparecerá automaticamente no menu.
 

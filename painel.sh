@@ -46,7 +46,6 @@ OPCOES_URL=(
 
 # >>> gerado automaticamente por gerar-hashes.sh (não edite à mão) >>>
 OPCOES_SHA256=(
-[1;33m[!][0m 'install-fetch.sh' tem alterações não staged; o hash registrado é da versão staged.
     "b4e23e9d573e4c14308272e46612ff91c2b3bcad9213714bd8abf346379d38c3"   # install-fetch.sh
 )
 # <<< fim do bloco gerado <<<

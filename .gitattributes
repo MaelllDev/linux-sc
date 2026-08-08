@@ -1,0 +1,5 @@
+# Força line endings LF para garantir que os arquivos sejam
+# idênticos ao conteúdo servido pelo GitHub (raw.githubusercontent.com).
+# Isso é essencial para a verificação de integridade sha256 do painel.sh.
+*.sh text eol=lf
+*.md text eol=lf
