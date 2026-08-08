@@ -27,6 +27,10 @@ err()  { echo -e "${C_ERR}[ERRO]${C_RESET} $*"; }
 # CONFIGURAÇÃO DAS OPÇÕES DO MENU
 # Adicione novas opções aqui: nome (texto exibido) + URL do script "raw".
 # Basta seguir o mesmo padrão das linhas abaixo.
+#
+# IMPORTANTE: os hashes em OPCOES_SHA256 são gerados automaticamente por
+# ./gerar-hashes.sh (ou pelo pre-commit hook). Depois de adicionar ou alterar
+# um script, rode o gerador — nunca edite os hashes à mão.
 # =========================================================================
 OPCOES_NOME=(
     "Instalar neofetch/fastfetch (mostra system info ao abrir terminal)"
@@ -39,6 +43,13 @@ OPCOES_URL=(
     # "https://raw.githubusercontent.com/SEU_USUARIO/SEU_REPO/refs/heads/main/outro-script.sh"
     # "https://raw.githubusercontent.com/SEU_USUARIO/SEU_REPO/refs/heads/main/mais-um.sh"
 )
+
+# >>> gerado automaticamente por gerar-hashes.sh (não edite à mão) >>>
+OPCOES_SHA256=(
+[1;33m[!][0m 'install-fetch.sh' tem alterações não staged; o hash registrado é da versão staged.
+    "b4e23e9d573e4c14308272e46612ff91c2b3bcad9213714bd8abf346379d38c3"   # install-fetch.sh
+)
+# <<< fim do bloco gerado <<<
 # =========================================================================
 
 # ---------- escolhe o downloader disponível ----------
@@ -63,9 +74,69 @@ baixar_para() {
     fi
 }
 
+confirmar() {
+    # confirmar <mensagem> -> pergunta [s/N]; retorna 0 se sim
+    local resp
+    read -rp "$1 [s/N] " resp
+    [ "$resp" = "s" ] || [ "$resp" = "S" ]
+}
+
+calcular_sha256() {
+    # calcular_sha256 <arquivo> -> imprime o hash na saída padrão
+    local arquivo="$1"
+    if command -v sha256sum >/dev/null 2>&1; then
+        sha256sum "$arquivo" | awk '{print $1}'
+    elif command -v shasum >/dev/null 2>&1; then
+        shasum -a 256 "$arquivo" | awk '{print $1}'
+    else
+        return 1
+    fi
+}
+
+verificar_integridade() {
+    # verificar_integridade <arquivo> <hash-esperado> <nome>
+    local arquivo="$1"
+    local esperado="$2"
+    local nome="$3"
+    local real=""
+
+    real="$(calcular_sha256 "$arquivo")" || real=""
+
+    if [ -z "$esperado" ]; then
+        warn "Nenhum checksum registrado para '$nome'."
+        warn "Rode './gerar-hashes.sh' e faça commit para gerar o hash."
+        if confirmar "Executar mesmo assim?"; then
+            return 0
+        fi
+        warn "Execução cancelada pelo usuário."
+        return 1
+    fi
+
+    if [ -z "$real" ]; then
+        warn "Ferramenta de checksum (sha256sum/shasum) não encontrada."
+        if confirmar "Não foi possível verificar a integridade. Executar mesmo assim?"; then
+            return 0
+        fi
+        warn "Execução cancelada pelo usuário."
+        return 1
+    fi
+
+    if [ "$real" = "$esperado" ]; then
+        log "Integridade verificada (sha256 ok)."
+        return 0
+    fi
+
+    err "ERRO DE INTEGRIDADE: o checksum de '$nome' não confere!"
+    err "Esperado: $esperado"
+    err "Obtido:   $real"
+    err "O script pode ter sido alterado ou corrompido. Abortando execução."
+    return 1
+}
+
 executar_script() {
     local url="$1"
     local nome="$2"
+    local esperado="$3"
 
     log "Baixando script: ${nome}..."
 
@@ -74,6 +145,11 @@ executar_script() {
 
     if ! baixar_para "$url" "$tmpfile"; then
         err "Falha ao baixar o script de: $url"
+        rm -f "$tmpfile"
+        return 1
+    fi
+
+    if ! verificar_integridade "$tmpfile" "$esperado" "$nome"; then
         rm -f "$tmpfile"
         return 1
     fi
@@ -143,7 +219,7 @@ while true; do
         continue
     fi
 
-    executar_script "${OPCOES_URL[$indice]}" "${OPCOES_NOME[$indice]}"
+    executar_script "${OPCOES_URL[$indice]}" "${OPCOES_NOME[$indice]}" "${OPCOES_SHA256[$indice]:-}"
 
     echo ""
     read -rp "Pressione ENTER para voltar ao menu..." _
